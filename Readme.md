@@ -1,377 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Readme.md</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+# ALR4J Documentation
+## Database Structure
+### <p style="background-color:#C0392B; color:white;">Domn</p>
+- Contains definitions for various integer IDs used within other tables (e.g. entity types, institution types, entity status types, service types, transaction types, etc.).
+- Should be treated as READ-ONLY.
 
-<style>
-/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--vscode-markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--vscode-markdown-line-height, 22px);
-	word-wrap: break-word;
-}
-
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
-
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
-
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
-
-body.showEditorSelection .code-line {
-	position: relative;
-}
-
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
-
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
-
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
-
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
-
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
-
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
-
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
-
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
-
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-h1, h2, h3 {
-	font-weight: normal;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
-
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
-
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
-
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
-
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
-
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
-
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
-
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
-
-/** Theming */
-
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
-
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
-
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
-
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
-
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
-
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
-
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
-
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
-
-</style>
-
-<style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
-
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
-
-.hljs-emphasis {
-	font-style: italic;
-}
-
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-<style>
-/*
- * Markdown PDF CSS
- */
-
- body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
-	padding: 0 12px;
-}
-
-pre {
-	background-color: #f8f8f8;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
-}
-
-pre:not(.hljs) {
-	padding: 23px;
-	line-height: 19px;
-}
-
-blockquote {
-	background: rgba(127, 127, 127, 0.1);
-	border-color: rgba(0, 122, 204, 0.5);
-}
-
-.emoji {
-	height: 1.4em;
-}
-
-code {
-	font-size: 14px;
-	line-height: 19px;
-}
-
-/* for inline code */
-:not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
-	font-size: inherit;
-}
-
-/* Page Break : use <div class="page"/> to insert page break
--------------------------------------------------------- */
-.page {
-	page-break-after: always;
-}
-
-</style>
-
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
-</head>
-<body>
-  <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-          ? 'dark'
-          : 'default'
-    });
-  </script>
-<h1 id="alr4j-documentation">ALR4J Documentation</h1>
-<h2 id="database-structure">Database Structure</h2>
-<h3 id="p-style%22background-colorc0392b-colorwhite%22domnp"><p style="background-color:#C0392B; color:white;">Domn</p></h3>
-<ul>
-<li>Contains definitions for various integer IDs used within other tables (e.g. entity types, institution types, entity status types, service types, transaction types, etc.).</li>
-<li>Should be treated as READ-ONLY.</li>
-</ul>
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -406,7 +38,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Domn</code> Table:</p>
+
+Example `Domn` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">DomnID</th>
@@ -604,21 +237,23 @@ code {
 		<td>TAX</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Domn`</span> (
-  <span class="hljs-string">`DomnId`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`DomnName`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`DomnValue`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`DomnId`</span> (<span class="hljs-string">`DomnId`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`DomnName`</span> (<span class="hljs-string">`DomnName`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
 
-<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`Domn`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">0</span>,<span class="hljs-string">'EntityStatus'</span>,<span class="hljs-string">'Current'</span>),(<span class="hljs-number">0</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Savings Account'</span>),(<span class="hljs-number">0</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Direct Debit (PP, PDC etc.)'</span>),(<span class="hljs-number">0</span>,<span class="hljs-string">'ShareTxnType'</span>,<span class="hljs-string">'Buy'</span>),(<span class="hljs-number">0</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'INT'</span>),(<span class="hljs-number">1</span>,<span class="hljs-string">'EntityStatus'</span>,<span class="hljs-string">'Closed'</span>),(<span class="hljs-number">1</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Credit Card'</span>),(<span class="hljs-number">1</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Direct Credit (Salary, Rent, Dividend etc.)'</span>),(<span class="hljs-number">1</span>,<span class="hljs-string">'ShareTxnType'</span>,<span class="hljs-string">'Sell'</span>),(<span class="hljs-number">1</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'DIV'</span>),(<span class="hljs-number">2</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Loan Account'</span>),(<span class="hljs-number">2</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Net Details (URL, UserId, Pwd etc.)'</span>),(<span class="hljs-number">2</span>,<span class="hljs-string">'ShareTxnType'</span>,<span class="hljs-string">'Dividend'</span>),(<span class="hljs-number">2</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'FEE'</span>),(<span class="hljs-number">3</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Term Deposit'</span>),(<span class="hljs-number">3</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Telebank Details (Number, UserId, Pwd etc.)'</span>),(<span class="hljs-number">3</span>,<span class="hljs-string">'ShareTxnType'</span>,<span class="hljs-string">'DRP'</span>),(<span class="hljs-number">3</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'OTHER'</span>),(<span class="hljs-number">4</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Superannuation'</span>),(<span class="hljs-number">4</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Card Details (Number, Expiry Date, PIN etc.)'</span>),(<span class="hljs-number">4</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'PAYMENT'</span>),(<span class="hljs-number">5</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Property'</span>),(<span class="hljs-number">5</span>,<span class="hljs-string">'ServiceType'</span>,<span class="hljs-string">'Other'</span>),(<span class="hljs-number">5</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'CREDIT'</span>),(<span class="hljs-number">6</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Shares/Managed Funds'</span>),(<span class="hljs-number">6</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'DEP'</span>),(<span class="hljs-number">7</span>,<span class="hljs-string">'EntityType'</span>,<span class="hljs-string">'Insurance'</span>),(<span class="hljs-number">7</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'POS'</span>),(<span class="hljs-number">8</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'XFER'</span>),(<span class="hljs-number">9</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'DEBIT'</span>),(<span class="hljs-number">10</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'SRVCHG'</span>),(<span class="hljs-number">11</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'ATM'</span>),(<span class="hljs-number">12</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'CHECK'</span>),(<span class="hljs-number">13</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'CASH'</span>),(<span class="hljs-number">14</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'DIRECTDEP'</span>),(<span class="hljs-number">15</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'DIRECTDEBIT'</span>),(<span class="hljs-number">16</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'REPEATPMT'</span>),(<span class="hljs-number">17</span>,<span class="hljs-string">'TxnCatg'</span>,<span class="hljs-string">'TAX'</span>);
-</div></code></pre>
-<h3 id="p-style%22background-colord68910-colorwhite%22holderp"><p style="background-color:#D68910; color:white;">Holder</p></h3>
-<ul>
-<li>Holders are individuals with ownership over entities.</li>
-<li>Holder_IDs are unique and assigned upon holder creation.</li>
-</ul>
+```SQL
+CREATE TABLE `Domn` (
+  `DomnId` int(11) NOT NULL,
+  `DomnName` varchar(50) NOT NULL,
+  `DomnValue` varchar(255) NOT NULL,
+  KEY `DomnId` (`DomnId`),
+  KEY `DomnName` (`DomnName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Domn` VALUES (0,'EntityStatus','Current'),(0,'EntityType','Savings Account'),(0,'ServiceType','Direct Debit (PP, PDC etc.)'),(0,'ShareTxnType','Buy'),(0,'TxnCatg','INT'),(1,'EntityStatus','Closed'),(1,'EntityType','Credit Card'),(1,'ServiceType','Direct Credit (Salary, Rent, Dividend etc.)'),(1,'ShareTxnType','Sell'),(1,'TxnCatg','DIV'),(2,'EntityType','Loan Account'),(2,'ServiceType','Net Details (URL, UserId, Pwd etc.)'),(2,'ShareTxnType','Dividend'),(2,'TxnCatg','FEE'),(3,'EntityType','Term Deposit'),(3,'ServiceType','Telebank Details (Number, UserId, Pwd etc.)'),(3,'ShareTxnType','DRP'),(3,'TxnCatg','OTHER'),(4,'EntityType','Superannuation'),(4,'ServiceType','Card Details (Number, Expiry Date, PIN etc.)'),(4,'TxnCatg','PAYMENT'),(5,'EntityType','Property'),(5,'ServiceType','Other'),(5,'TxnCatg','CREDIT'),(6,'EntityType','Shares/Managed Funds'),(6,'TxnCatg','DEP'),(7,'EntityType','Insurance'),(7,'TxnCatg','POS'),(8,'TxnCatg','XFER'),(9,'TxnCatg','DEBIT'),(10,'TxnCatg','SRVCHG'),(11,'TxnCatg','ATM'),(12,'TxnCatg','CHECK'),(13,'TxnCatg','CASH'),(14,'TxnCatg','DIRECTDEP'),(15,'TxnCatg','DIRECTDEBIT'),(16,'TxnCatg','REPEATPMT'),(17,'TxnCatg','TAX');
+```
+
+### <p style="background-color:#D68910; color:white;">Holder</p>
+- Holders are individuals with ownership over entities.
+- Holder_IDs are unique and assigned upon holder creation.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -661,7 +296,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Holder</code> Table:</p>
+
+Example `Holder` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Holder_ID</th>
@@ -694,19 +330,21 @@ code {
         <td>458294720</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Holder`</span> (
-  <span class="hljs-string">`Holder_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Holder_Name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Holder_DOB`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Holder_TFN`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Holder_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-colord68910-colorwhite%22institutionp"><p style="background-color:#D68910; color:white;">Institution</p></h3>
-<ul>
-<li>Institutions are bodies which issue entities to holders</li>
-<li>Institution_IDs are unique and assigned upon institution creation.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Holder` (
+  `Holder_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Holder_Name` varchar(255) NOT NULL,
+  `Holder_DOB` date DEFAULT NULL,
+  `Holder_TFN` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Holder_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#D68910; color:white;">Institution</p>
+- Institutions are bodies which issue entities to holders
+- Institution_IDs are unique and assigned upon institution creation.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -757,7 +395,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Institution</code> Table:</p>
+
+Example `Institution` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Institution_ID</th>
@@ -788,21 +427,23 @@ code {
         <td>I like this bank</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Institution`</span> (
-  <span class="hljs-string">`Institution_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Code`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">5</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Address`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Comments`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Institution_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`Code`</span> (<span class="hljs-string">`Code`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color27ae60-colorwhite%22entityp"><p style="background-color:#27AE60; color:white;">Entity</p></h3>
-<ul>
-<li>Entities are given to holders by institutions (e.g. credit cards, mortgages, stocks, properties, etc.).</li>
-<li>Entity_IDs are unique and assigned upon entity creation.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Institution` (
+  `Institution_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Code` varchar(5) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `Comments` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Institution_ID`),
+  KEY `Code` (`Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#27AE60; color:white;">Entity</p>
+- Entities are given to holders by institutions (e.g. credit cards, mortgages, stocks, properties, etc.).
+- Entity_IDs are unique and assigned upon entity creation.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -885,7 +526,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Entity</code> Table:</p>
+
+Example `Entity` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -932,26 +574,28 @@ code {
         <td><font color="red">NULL</font></td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Entity`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Institution_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Entity_Type`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Entity_Number`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Entity_Status`</span> <span class="hljs-built_in">bit</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Entity_Start_Date`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Entity_End_Date`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Description`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Comments`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_Entity_Institution`</span> (<span class="hljs-string">`Institution_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Entity_Institution`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Institution_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Institution`</span> (<span class="hljs-string">`Institution_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color27ae60-colorwhite%22servicep"><p style="background-color:#27AE60; color:white;">Service</p></h3>
-<ul>
-<li>Services are provided to holders of an entity (e.g. internet banking).</li>
-<li>Service_IDs are unique and assigned upon service creation.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Entity` (
+  `Entity_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Institution_ID` int(11) NOT NULL,
+  `Entity_Type` int(11) NOT NULL,
+  `Entity_Number` varchar(255) NOT NULL,
+  `Entity_Status` bit(1) NOT NULL,
+  `Entity_Start_Date` date NOT NULL,
+  `Entity_End_Date` date DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  `Comments` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  KEY `FK_Entity_Institution` (`Institution_ID`),
+  CONSTRAINT `FK_Entity_Institution` FOREIGN KEY (`Institution_ID`) REFERENCES `Institution` (`Institution_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#27AE60; color:white;">Service</p>
+- Services are provided to holders of an entity (e.g. internet banking).
+- Service_IDs are unique and assigned upon service creation.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1034,7 +678,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Service</code> Table:</p>
+
+Example `Service` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Service_ID</th>
@@ -1056,7 +701,7 @@ code {
         <td><font color="red">NULL</font></td>
 		<td>Fortnightly</td>
         <td><font color="red">NULL</font></td>
-		<td>Bob&apos;s Centrelink (293 384 323)</td>
+		<td>Bob's Centrelink (293 384 323)</td>
  	</tr>
 	<tr>
   		<td style="text-align:center;"><code>2</code></td>
@@ -1078,29 +723,31 @@ code {
         <td><font color="red">NULL</font></td>
         <td><font color="red">NULL</font></td>
         <td><font color="red">NULL</font></td>
-		<td>Martin&apos;s Salary from CBA</td>
+		<td>Martin's Salary from CBA</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Service`</span> (
-  <span class="hljs-string">`Service_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Service_Type`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Expiry_Date`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`User_ID`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Pwd_PIN`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Frequency`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Contact`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Description`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Service_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_Service_Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Service_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color2471a3-colorwhite%22entityhistoryp"><p style="background-color:#2471A3; color:white;">EntityHistory</p></h3>
-<ul>
-<li><code>Entity_ID</code> represents the child/recipient/successor entity, whilst <code>Linked_Entity_ID</code> represents the parent/provider/predecessor entity.</li>
-<li>Neither <code>Entity_ID</code> or <code>Linked_Entity_ID</code> are unique since entities can have several parents or children.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Service` (
+  `Service_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Entity_ID` int(11) NOT NULL,
+  `Service_Type` int(11) NOT NULL,
+  `Expiry_Date` date DEFAULT NULL,
+  `User_ID` varchar(255) DEFAULT NULL,
+  `Pwd_PIN` varchar(255) DEFAULT NULL,
+  `Frequency` varchar(255) DEFAULT NULL,
+  `Contact` varchar(255) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Service_ID`),
+  KEY `FK_Service_Entity` (`Entity_ID`),
+  CONSTRAINT `FK_Service_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#2471A3; color:white;">EntityHistory</p>
+- `Entity_ID` represents the child/recipient/successor entity, whilst `Linked_Entity_ID` represents the parent/provider/predecessor entity.
+- Neither `Entity_ID` or `Linked_Entity_ID` are unique since entities can have several parents or children.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1127,7 +774,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>EntityHistory</code> Table:</p>
+
+Example `EntityHistory` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1150,19 +798,21 @@ code {
 		<td style="text-align:center;"><code>13</code></td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`EntityHistory`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Linked_Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`Entity_ID`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`Linked_Entity_ID`</span> (<span class="hljs-string">`Linked_Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_EntityHistory_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_EntityHistory_Linked`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Linked_Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color2471a3-colorwhite%22holderentityp"><p style="background-color:#2471A3; color:white;">HolderEntity</p></h3>
-<ul>
-<li>Neither <code>Entity_ID</code> or <code>Holder_ID</code> are unique, since entities can have multiple holders and holders can own multiple entities.</li>
-</ul>
+
+```SQL
+CREATE TABLE `EntityHistory` (
+  `Entity_ID` int(11) NOT NULL,
+  `Linked_Entity_ID` int(11) NOT NULL,
+  KEY `Entity_ID` (`Entity_ID`),
+  KEY `Linked_Entity_ID` (`Linked_Entity_ID`),
+  CONSTRAINT `FK_EntityHistory_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`),
+  CONSTRAINT `FK_EntityHistory_Linked` FOREIGN KEY (`Linked_Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#2471A3; color:white;">HolderEntity</p>
+- Neither `Entity_ID` or `Holder_ID` are unique, since entities can have multiple holders and holders can own multiple entities.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1189,7 +839,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>HolderEntity</code> Table:</p>
+
+Example `HolderEntity` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1208,20 +859,22 @@ code {
 		<td style="text-align:center;"><code>2</code></td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`HolderEntity`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Holder_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_HolderEntity_Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_HolderEntity_Holder`</span> (<span class="hljs-string">`Holder_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_HolderEntity_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_HolderEntity_Holder`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Holder_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Holder`</span> (<span class="hljs-string">`Holder_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color6c3483-colorwhite%22entityshrtxnp"><p style="background-color:#6C3483; color:white;">EntityShrTxn</p></h3>
-<ul>
-<li>Record of all transactions that occur for a given set of shares or managed funds (e.g. purchase, sale, dividends and dividend reinvestment).</li>
-<li>Not all fields are used depending on the transaction type (e.g. capital gains tax is only relevant when shares have been sold). Fields irrelevant to the type of transaction being stored are expected to be populated with zero values.</li>
-</ul>
+
+```SQL
+CREATE TABLE `HolderEntity` (
+  `Entity_ID` int(11) NOT NULL,
+  `Holder_ID` int(11) NOT NULL,
+  KEY `FK_HolderEntity_Entity` (`Entity_ID`),
+  KEY `FK_HolderEntity_Holder` (`Holder_ID`),
+  CONSTRAINT `FK_HolderEntity_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`),
+  CONSTRAINT `FK_HolderEntity_Holder` FOREIGN KEY (`Holder_ID`) REFERENCES `Holder` (`Holder_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#6C3483; color:white;">EntityShrTxn</p>
+- Record of all transactions that occur for a given set of shares or managed funds (e.g. purchase, sale, dividends and dividend reinvestment).
+- Not all fields are used depending on the transaction type (e.g. capital gains tax is only relevant when shares have been sold). Fields irrelevant to the type of transaction being stored are expected to be populated with zero values.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1328,7 +981,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>EntityShrTxn</code> Table:</p>
+
+Example `EntityShrTxn` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Shr_Txn_ID</th>
@@ -1387,28 +1041,30 @@ code {
 		<td><font color="red">NULL</font></td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`EntityShrTxn`</span> (
-  <span class="hljs-string">`Shr_Txn_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Date`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_SubType`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Number_Shares`</span> <span class="hljs-built_in">float</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Share_Price`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Dividend_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Franking_Percentage`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Capital_Gains_Tax`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Brokerage_Charges`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Other_Charges`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Description`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Shr_Txn_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_EntityShrTxn_Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_EntityShrTxn_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color6c3483-colorwhite%22entitytxnp"><p style="background-color:#6C3483; color:white;">EntityTxn</p></h3>
-<ul>
-<li>Record of all transactions that occur for credit cards, savings accounts and superannuation funds.</li>
-</ul>
+
+```SQL
+CREATE TABLE `EntityShrTxn` (
+  `Shr_Txn_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Entity_ID` int(11) NOT NULL,
+  `Date` date NOT NULL,
+  `Txn_SubType` int(11) NOT NULL,
+  `Number_Shares` float NOT NULL,
+  `Share_Price` decimal(34,2) NOT NULL,
+  `Dividend_Amount` decimal(34,2) NOT NULL,
+  `Franking_Percentage` decimal(34,2) NOT NULL,
+  `Capital_Gains_Tax` decimal(34,2) NOT NULL,
+  `Brokerage_Charges` decimal(34,2) NOT NULL,
+  `Other_Charges` decimal(34,2) NOT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Shr_Txn_ID`),
+  KEY `FK_EntityShrTxn_Entity` (`Entity_ID`),
+  CONSTRAINT `FK_EntityShrTxn_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#6C3483; color:white;">EntityTxn</p>
+- Record of all transactions that occur for credit cards, savings accounts and superannuation funds.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1475,7 +1131,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>EntityTxn</code> Table:</p>
+
+Example `EntityTxn` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Txn_ID</th>
@@ -1514,23 +1171,25 @@ code {
 		<td><font color="red">NULL</font></td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`EntityTxn`</span> (
-  <span class="hljs-string">`Txn_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_Date`</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_Catg`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_DR`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_CR`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Txn_Description`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Txn_ID`</span>),
-  <span class="hljs-keyword">KEY</span> <span class="hljs-string">`FK_EntityTxn_Entity`</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_EntityTxn_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22creditcardp"><p style="background-color:#34495E; color:white;">CreditCard</p></h3>
-<ul>
-<li>Holds additional information regarding credit cards.</li>
-</ul>
+
+```SQL
+CREATE TABLE `EntityTxn` (
+  `Txn_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Entity_ID` int(11) NOT NULL,
+  `Txn_Date` date NOT NULL,
+  `Txn_Catg` int(11) NOT NULL,
+  `Txn_DR` decimal(34,2) NOT NULL,
+  `Txn_CR` decimal(34,2) NOT NULL,
+  `Txn_Description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Txn_ID`),
+  KEY `FK_EntityTxn_Entity` (`Entity_ID`),
+  CONSTRAINT `FK_EntityTxn_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">CreditCard</p>
+- Holds additional information regarding credit cards.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1557,7 +1216,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>CreditCard</code> Table:</p>
+
+Example `CreditCard` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1576,17 +1236,19 @@ code {
         <td>12000.00</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`CreditCard`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Card_Limit`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_CreditCard_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22insurancep"><p style="background-color:#34495E; color:white;">Insurance</p></h3>
-<ul>
-<li>Holds additional information regarding insurance policies.</li>
-</ul>
+
+```SQL
+CREATE TABLE `CreditCard` (
+  `Entity_ID` int(11) NOT NULL,
+  `Card_Limit` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_CreditCard_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">Insurance</p>
+- Holds additional information regarding insurance policies.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1621,7 +1283,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Insurance</code> Table:</p>
+
+Example `Insurance` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1644,19 +1307,21 @@ code {
         <td>180.00</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Insurance`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Insured_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Insurance_Premium_PA`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Insurance_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22loanp"><p style="background-color:#34495E; color:white;">Loan</p></h3>
-<ul>
-<li>Holds additional information regarding loans.</li>
-<li><code>Current_Value</code> represents the amount remaining to be repaid.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Insurance` (
+  `Entity_ID` int(11) NOT NULL,
+  `Insured_Amount` decimal(34,2) NOT NULL,
+  `Insurance_Premium_PA` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_Insurance_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">Loan</p>
+- Holds additional information regarding loans.
+- `Current_Value` represents the amount remaining to be repaid.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1691,7 +1356,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Loan</code> Table:</p>
+
+Example `Loan` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1709,19 +1375,21 @@ code {
         <td>2000.00</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Loan`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Loan_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Current_Value`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Loan_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22propertyp"><p style="background-color:#34495E; color:white;">Property</p></h3>
-<ul>
-<li>Holds additional information regarding properties.</li>
-<li>If a property is yet to be sold, all fields relevant to the sale of a property (e.g. <code>Capital_Gains_Tax</code>) are expected to be zeroed.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Loan` (
+  `Entity_ID` int(11) NOT NULL,
+  `Loan_Amount` decimal(34,2) NOT NULL,
+  `Current_Value` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_Loan_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">Property</p>
+- Holds additional information regarding properties.
+- If a property is yet to be sold, all fields relevant to the sale of a property (e.g. `Capital_Gains_Tax`) are expected to be zeroed.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1828,7 +1496,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Property</code> Table:</p>
+
+Example `Property` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1873,27 +1542,29 @@ code {
         <td>0.00</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Property`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Address`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Current_Value`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Purchase_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Sold_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Solicitors_Fees_Buy`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Solicitors_Fees_Sell`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Govt_Charges_Buy`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Govt_Charges_Sell`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Agent_Fees_Buy`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Agent_Fees_Sell`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Capital_Gains_Tax`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Property_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22sharesp"><p style="background-color:#34495E; color:white;">Shares</p></h3>
-<ul>
-<li>Holds additional information regarding shares/managed funds.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Property` (
+  `Entity_ID` int(11) NOT NULL,
+  `Address` varchar(255) NOT NULL,
+  `Current_Value` decimal(34,2) NOT NULL,
+  `Purchase_Amount` decimal(34,2) NOT NULL,
+  `Sold_Amount` decimal(34,2) NOT NULL,
+  `Solicitors_Fees_Buy` decimal(34,2) NOT NULL,
+  `Solicitors_Fees_Sell` decimal(34,2) NOT NULL,
+  `Govt_Charges_Buy` decimal(34,2) NOT NULL,
+  `Govt_Charges_Sell` decimal(34,2) NOT NULL,
+  `Agent_Fees_Buy` decimal(34,2) NOT NULL,
+  `Agent_Fees_Sell` decimal(34,2) NOT NULL,
+  `Capital_Gains_Tax` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_Property_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">Shares</p>
+- Holds additional information regarding shares/managed funds.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -1920,7 +1591,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>Shares</code> Table:</p>
+
+Example `Shares` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -1935,17 +1607,19 @@ code {
         <td>34.85</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`Shares`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Current_Unit_Value`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_Shares_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h3 id="p-style%22background-color34495e-colorwhite%22termdepositp"><p style="background-color:#34495E; color:white;">TermDeposit</p></h3>
-<ul>
-<li>Holds additional information regarding term deposits.</li>
-</ul>
+
+```SQL
+CREATE TABLE `Shares` (
+  `Entity_ID` int(11) NOT NULL,
+  `Current_Unit_Value` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_Shares_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### <p style="background-color:#34495E; color:white;">TermDeposit</p>
+- Holds additional information regarding term deposits.
+
 <table>
 	<tr>
 		<th style="text-align:center;">Field</th>
@@ -2004,7 +1678,8 @@ code {
         <td style="text-align:center;"></td>
  	</tr>
 </table>
-<p>Example <code>TermDeposit</code> Table:</p>
+
+Example `TermDeposit` Table:
 <table>
 	<tr>
 		<th style="text-align:center;">Entity_ID</th>
@@ -2031,19 +1706,23 @@ code {
         <td>0.00</td>
  	</tr>
 </table>
-<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`TermDeposit`</span> (
-  <span class="hljs-string">`Entity_ID`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Opening_Balance`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Interest_Rate`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Interest_Amount`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Bank_Fees`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  <span class="hljs-string">`Other_Charges`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">34</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
-  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>),
-  <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-string">`FK_TermDeposit_Entity`</span> <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`Entity_ID`</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">`Entity`</span> (<span class="hljs-string">`Entity_ID`</span>)
-) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8mb4;
-</div></code></pre>
-<h2 id="debugging-cheat-sheet">Debugging Cheat Sheet</h2>
-<p>MariaDB provides the backend database functionality for ALRv2. MariaDB installation instructions and database locations on other operating systems will vary. Below are some basic commands that can be used with MariaDB in order to assist any potential future debugging.</p>
+
+```SQL
+CREATE TABLE `TermDeposit` (
+  `Entity_ID` int(11) NOT NULL,
+  `Opening_Balance` decimal(34,2) NOT NULL,
+  `Interest_Rate` decimal(34,2) NOT NULL,
+  `Interest_Amount` decimal(34,2) NOT NULL,
+  `Bank_Fees` decimal(34,2) NOT NULL,
+  `Other_Charges` decimal(34,2) NOT NULL,
+  PRIMARY KEY (`Entity_ID`),
+  CONSTRAINT `FK_TermDeposit_Entity` FOREIGN KEY (`Entity_ID`) REFERENCES `Entity` (`Entity_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+## Debugging Cheat Sheet
+MariaDB provides the backend database functionality for ALRv2. MariaDB installation instructions and database locations on other operating systems will vary. Below are some basic commands that can be used with MariaDB in order to assist any potential future debugging.
+
 <table>
 	<tr>
 		<th>Command</th>
@@ -2058,7 +1737,7 @@ code {
    		<td bgcolor="#145A32"><font color="#ffffff">Stops the MariaDB Service.</font></td>
  	</tr>
 	<tr>
-  		<td bgcolor="#641E16"><code>CREATE USER &apos;NAME_OF_USER&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;ADD_A_PASSWORD&apos;;</code></td>
+  		<td bgcolor="#641E16"><code>CREATE USER 'NAME_OF_USER'@'localhost' IDENTIFIED BY 'ADD_A_PASSWORD';</code></td>
    		<td bgcolor="#641E16"><font color="#ffffff">Creates a user and sets a password for them.</font></td>
  	</tr>
     <tr>
@@ -2066,7 +1745,7 @@ code {
    		<td bgcolor="#641E16"><font color="#ffffff">Lists all users.</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#641E16"><code>GRANT ALL privileges ON `ALR_DB`.* TO &apos;RohanBarar&apos;@localhost;</code></td>
+  		<td bgcolor="#641E16"><code>GRANT ALL privileges ON `ALR_DB`.* TO 'RohanBarar'@localhost;</code></td>
    		<td bgcolor="#641E16"><font color="#ffffff">Grants all privileges to a given user.</font></td>
  	</tr>
     <tr>
@@ -2094,7 +1773,7 @@ code {
    		<td bgcolor="#154360"><font color="#ffffff">Describes a given table within a database.</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#154360"><code>INSERT INTO book (id, name) VALUES(1, &apos;MariaDB Book&apos;), (2, &apos;Example2&apos;);</code></td>
+  		<td bgcolor="#154360"><code>INSERT INTO book (id, name) VALUES(1, 'MariaDB Book'), (2, 'Example2');</code></td>
    		<td bgcolor="#154360"><font color="#ffffff">Inserts multiple records into the table, populating the specified columns with the data specified within that same order.</font></td>
  	</tr>
     <tr>
@@ -2102,11 +1781,11 @@ code {
    		<td bgcolor="#154360"><font color="#ffffff">Selects all records from the table book.</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#154360"><code>UPDATE book SET name=&apos;Blah&apos;, author=&apos;haha&apos; WHERE id = 1;</code></td>
+  		<td bgcolor="#154360"><code>UPDATE book SET name='Blah', author='haha' WHERE id = 1;</code></td>
    		<td bgcolor="#154360"><font color="#ffffff">Updates a selected record with new column information given a condition (in this case, the id number).</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#154360"><code>Select * FROM book WHERE author = &#x201C;Author2&#x201D; AND name = &#x201C;ass&#x201D;;</code></td>
+  		<td bgcolor="#154360"><code>Select * FROM book WHERE author = “Author2” AND name = “ass”;</code></td>
    		<td bgcolor="#154360"><font color="#ffffff">Selects all records within the table book where the author is Author2 and the name of the book is ass. OR can also be used instead of AND.</font></td>
  	</tr>
     <tr>
@@ -2115,11 +1794,11 @@ code {
  	</tr>
     <tr>
   		<td bgcolor="#154360"><code>ALTER TABLE Tablename ADD PRIMARY KEY(id)</code></td>
-   		<td bgcolor="#154360"><font color="#ffffff">Add the column &apos;id&apos; as the primary key for the table.</font></td>
+   		<td bgcolor="#154360"><font color="#ffffff">Add the column 'id' as the primary key for the table.</font></td>
  	</tr>
     <tr>
   		<td bgcolor="#154360"><code>ALTER TABLE Tablename MODIFY COLUMN Columnname &lt;datatype&gt; &lt;conditions&gt;</code></td>
-   		<td bgcolor="#154360"><font color="#ffffff">Modify an existing column&apos;s datatype or conditions (e.g. NOT NULL, auto_increment, etc.)</font></td>
+   		<td bgcolor="#154360"><font color="#ffffff">Modify an existing column's datatype or conditions (e.g. NOT NULL, auto_increment, etc.)</font></td>
  	</tr>
     <tr>
   		<td bgcolor="#154360"><code>ALTER TABLE TargetTable ADD CONSTRAINT FK_TargetTable_SourceTable_ColumnName FOREIGN KEY (ColumnName) REFERENCES SourceTable(ColumnName);</code></td>
@@ -2127,17 +1806,14 @@ code {
  	</tr>
     <tr>
   		<td bgcolor="#154360"><code>ALTER TABLE Tablename DROP FOREIGN KEY FK_Name;</code></td>
-   		<td bgcolor="#154360"><font color="#ffffff">Deletes the foreign key &apos;FK_Name&apos; from the specified table.</font></td>
+   		<td bgcolor="#154360"><font color="#ffffff">Deletes the foreign key 'FK_Name' from the specified table.</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#4A235A"><code>mysqldump -u username -p database_name &gt; data-dump.sql</code></td>
-   		<td bgcolor="#4A235A"><font color="#ffffff">Requests the user&apos;s password before backing up the database to the selected path as a SQL file. Note this command should be run OUTSIDE the MariaDB shell.</font></td>
+  		<td bgcolor="#4A235A"><code>mysqldump -u username -p database_name > data-dump.sql</code></td>
+   		<td bgcolor="#4A235A"><font color="#ffffff">Requests the user's password before backing up the database to the selected path as a SQL file. Note this command should be run OUTSIDE the MariaDB shell.</font></td>
  	</tr>
     <tr>
-  		<td bgcolor="#4A235A"><code>mysql new_database &lt; data-dump.sql</code></td>
+  		<td bgcolor="#4A235A"><code>mysql new_database < data-dump.sql</code></td>
    		<td bgcolor="#4A235A"><font color="#ffffff">Restores a backup of a database. Note that the new_database should be created before running this import command. Note that a user will have to be granted privileges on this database again. Note this command should be run OUTSIDE the MariaDB shell.</font></td>
  	</tr>
 </table>
-
-</body>
-</html>

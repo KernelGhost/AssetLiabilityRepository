@@ -4,7 +4,7 @@ import java.util.Date;
 public class Service implements Comparable<Service>{
 	private String strID = "";				// Stores the service ID
 	private String strDescription = "";		// Stores the service description
-	private String strInst = "";			// Stores the parent institution
+	private String strEntity = "";			// Stores the parent entity ID
 	private String strFrequency = "";		// Stores the service frequency
 	private String strUserID = "";			// Stores the service user ID
 	private String strPassword = "";		// Stores the service password
@@ -15,7 +15,7 @@ public class Service implements Comparable<Service>{
 	// INITIALISE
 	public Service(String servicetype,
 					  String description,
-					  String institution,
+					  String entity_id,
 					  String frequency,
 					  String userid,
 					  String password,
@@ -24,7 +24,7 @@ public class Service implements Comparable<Service>{
 					  String ID) {
 		this.strServType = servicetype;
 		this.strDescription = description;
-		this.strInst = institution;
+		this.strEntity = entity_id;
 		this.strFrequency = frequency;
 		this.strUserID = userid;
 		this.strPassword = password;
@@ -42,8 +42,8 @@ public class Service implements Comparable<Service>{
 		return this.strDescription;
 	}
 	
-	public String GetInstitutionName() {
-		return this.strInst;
+	public String GetEntityID() {
+		return this.strEntity;
 	}
 	
 	public String GetFrequency() {
@@ -79,8 +79,8 @@ public class Service implements Comparable<Service>{
 		this.strDescription = strDescription;
 	}
 	
-	public void SetInstitutionName(String strInst) {
-		this.strInst = strInst;
+	public void SetInstitutionName(String strEntityID) {
+		this.strEntity = strEntityID;
 	}
 	
 	public void SetFrequency(String strFrequency) {
@@ -107,15 +107,8 @@ public class Service implements Comparable<Service>{
 		this.strServType = strServType;
 	}
 	
-	/* Used for sorting ServResults. First sorts by service type, then by parent institution name. */
+	/* Used for sorting ServResults. Sorts by service type. */
 	public int compareTo(Service o) {
-		int result1 = this.GetServiceType().compareToIgnoreCase(o.GetServiceType());
-		int result2 = this.GetInstitutionName().compareToIgnoreCase(o.GetInstitutionName());
-		
-		if (result1 == 0) {
-			return result2;
-		} else {
-			return result1;
-		}
+		return this.GetServiceType().compareToIgnoreCase(o.GetServiceType());
     }
 }

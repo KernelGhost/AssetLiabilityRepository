@@ -22,7 +22,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
 import CustomTypes.Entity;
-import CustomTypes.Institution;
 import CustomTypes.Service;
 
 public class frmNewEditService extends JFrame {
@@ -36,12 +35,11 @@ public class frmNewEditService extends JFrame {
 	
 	// Entity
 	private JTextField txtType;						// Displays the entity type
-	private JTextField txtNumber;					// Displays the entity type
+	private JTextField txtNumber;					// Displays the entity number
 	private JTextField txtHeld;						// Displays the entity's parent institution
 	
 	// Service
 	private JComboBox<String> comboServiceType;		// Displays the service type
-	private JComboBox<String> comboInstitution;		// Displays the service's holding institution
 	private JTextField txtFrequency;				// Displays the service frequency
 	private JTextField txtContact;					// Displays the service contact information
 	private JTextField txtUserID;					// Displays the service user ID
@@ -67,18 +65,10 @@ public class frmNewEditService extends JFrame {
 				comboServiceType.addItem(ServiceTypes[intCtr]);
 			}
 			
-			// Institution
-			Institution[] AllInstitutions = Main.database_handler.GetAllInstitutions();
-			Arrays.sort(AllInstitutions);
-			for (int intCtr = 0; intCtr < AllInstitutions.length; intCtr++) {
-				comboInstitution.addItem(AllInstitutions[intCtr].GetName());
-			}
-			
 			// If a service was passed to the JFrame, we populate the existing service information
 			if (this.service_result != null) {
 				comboServiceType.setSelectedItem(service_result.GetServiceType());	// Service Type
-				comboInstitution.setSelectedItem(service_result.GetInstitutionName());		// Parent Institution of Service
-			
+				
 				// Frequency
 				if (service_result.GetFrequency() != null) {
 					txtFrequency.setText(service_result.GetFrequency().trim());
@@ -137,7 +127,6 @@ public class frmNewEditService extends JFrame {
 	// Called when user requests to save changes to either a new or existing service
 	private void StoreService() {
 		String ServiceType;																// Stores the service type
-		String Institution;																// Stores the parent institution of the service
 		String Frequency;																// Stores the service frequency
 		String Contact;																	// Stores the service contact
 		String UserID;																	// Stores the service User ID
@@ -152,13 +141,6 @@ public class frmNewEditService extends JFrame {
 			ServiceType = comboServiceType.getSelectedItem().toString();
 		} else {
 			ServiceType = null;
-		}
-		
-		// Institution
-		if (comboInstitution.getSelectedIndex() >= 0) {
-			Institution = comboInstitution.getSelectedItem().toString();
-		} else {
-			Institution = null;
 		}
 		
 		// Frequency
@@ -203,8 +185,8 @@ public class frmNewEditService extends JFrame {
 			ExpiryDate = null;
 		}
 		
-		// Check if all mandatory fields (service type, institution and service description) are provided
-		if ((ServiceType != null) & (Institution != null) & (Description != null)) {
+		// Check if all mandatory fields (service type and service description) are provided
+		if ((ServiceType != null) & (Description != null)) {
 			// Check if fields exceed the maximum allowable VARCHAR length
 			// Check Frequency
 			if (Frequency != null) {
@@ -247,7 +229,7 @@ public class frmNewEditService extends JFrame {
 					Service service = new Service(
 							ServiceType,
 							Description,
-							Institution,
+							parent_entity_id,
 							Frequency,
 							UserID,
 							Password,
@@ -268,7 +250,7 @@ public class frmNewEditService extends JFrame {
 					Service service = new Service(
 							ServiceType,
 							Description,
-							Institution,
+							parent_entity_id,
 							Frequency,
 							UserID,
 							Password,
@@ -278,7 +260,7 @@ public class frmNewEditService extends JFrame {
 							);
 					
 					try {
-						Main.database_handler.NewService(service, parent_entity_id);
+						Main.database_handler.NewService(service);
 						Close();
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -328,7 +310,7 @@ public class frmNewEditService extends JFrame {
 		// Create Main JPanel
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setPreferredSize(new Dimension(480, 374));
+		contentPane.setPreferredSize(new Dimension(480, 344));
 		setContentPane(contentPane);
 		
 		// Pack and center the JFrame
@@ -389,7 +371,7 @@ public class frmNewEditService extends JFrame {
 		Border service_panel_border = BorderFactory.createTitledBorder("Service Details");
 		JPanel pnlService = new JPanel();
 		pnlService.setBorder(service_panel_border);
-		pnlService.setBounds(6, 133, 468, 206);
+		pnlService.setBounds(6, 133, 468, 176);
 		contentPane.add(pnlService);
 		pnlService.setLayout(null);
 		
@@ -399,39 +381,34 @@ public class frmNewEditService extends JFrame {
 		lblServiceType.setBounds(20, 26, 90, 16);
 		pnlService.add(lblServiceType);
 		
-		// Institution
-		JLabel lblHeldAt = new JLabel("*Held at:");
-		lblHeldAt.setBounds(20, 56, 90, 16);
-		pnlService.add(lblHeldAt);
-		
 		// User ID
 		JLabel lblUserId = new JLabel("User ID:");
-		lblUserId.setBounds(20, 116, 90, 16);
+		lblUserId.setBounds(20, 86, 90, 16);
 		pnlService.add(lblUserId);
 		
 		// Password
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(264, 116, 70, 16);
+		lblPassword.setBounds(264, 86, 70, 16);
 		pnlService.add(lblPassword);
 		
 		// Frequency
 		JLabel lblFrequency = new JLabel("Frequency:");
-		lblFrequency.setBounds(20, 86, 90, 16);
+		lblFrequency.setBounds(20, 56, 90, 16);
 		pnlService.add(lblFrequency);
 		
 		// Contact
 		JLabel lblContact = new JLabel("Contact:");
-		lblContact.setBounds(264, 86, 70, 16);
+		lblContact.setBounds(264, 56, 70, 16);
 		pnlService.add(lblContact);
 		
 		// Expiry Date
 		JLabel lblExpiryDate = new JLabel("Expiry Date:");
-		lblExpiryDate.setBounds(20, 146, 90, 16);
+		lblExpiryDate.setBounds(20, 116, 90, 16);
 		pnlService.add(lblExpiryDate);
 		
 		// Description
 		JLabel lblDescription = new JLabel("*Description:");
-		lblDescription.setBounds(20, 176, 90, 16);
+		lblDescription.setBounds(20, 146, 90, 16);
 		pnlService.add(lblDescription);
 		
 		// COMBOBOXES
@@ -440,38 +417,33 @@ public class frmNewEditService extends JFrame {
 		comboServiceType.setBounds(112, 22, 346, 27);
 		pnlService.add(comboServiceType);
 		
-		// Institution
-		comboInstitution = new JComboBox<String>();
-		comboInstitution.setBounds(112, 52, 346, 27);
-		pnlService.add(comboInstitution);
-		
 		// TEXTFIELDS
 		// Frequency
 		txtFrequency = new JTextField();
-		txtFrequency.setBounds(112, 81, 140, 26);
+		txtFrequency.setBounds(112, 51, 140, 26);
 		txtFrequency.setColumns(10);
 		pnlService.add(txtFrequency);
 		
 		// User ID
 		txtUserID = new JTextField();
-		txtUserID.setBounds(112, 111, 140, 26);
+		txtUserID.setBounds(112, 81, 140, 26);
 		txtUserID.setColumns(10);
 		pnlService.add(txtUserID);
 		
 		// Password
 		txtPassword = new JTextField();
-		txtPassword.setBounds(332, 111, 126, 26);
+		txtPassword.setBounds(332, 81, 126, 26);
 		txtPassword.setColumns(10);
 		pnlService.add(txtPassword);
 		
 		// Contact
 		txtContact = new JTextField();
-		txtContact.setBounds(332, 81, 126, 26);
+		txtContact.setBounds(332, 51, 126, 26);
 		txtContact.setColumns(10);
 		pnlService.add(txtContact);
 		
 		txtDescription = new JTextField();
-		txtDescription.setBounds(112, 171, 346, 26);
+		txtDescription.setBounds(112, 141, 346, 26);
 		txtDescription.setColumns(10);
 		pnlService.add(txtDescription);
 		
@@ -481,7 +453,7 @@ public class frmNewEditService extends JFrame {
 		dateSettings.setFormatForDatesCommonEra(Main.CE_DATE_FORMAT);
 		dateSettings.setFormatForDatesBeforeCommonEra(Main.BCE_DATE_FORMAT);
 		ExpiryDatePicker = new DatePicker(dateSettings);
-		ExpiryDatePicker.setBounds(112, 139, 346, 30);
+		ExpiryDatePicker.setBounds(112, 109, 346, 30);
 		pnlService.add(ExpiryDatePicker);
 		
 		// BUTTONS
@@ -492,7 +464,7 @@ public class frmNewEditService extends JFrame {
 				StoreService();
 			}
 		});
-		btnOk.setBounds(314, 340, 80, 29);
+		btnOk.setBounds(314, 310, 80, 29);
 		contentPane.add(btnOk);
 		
 		// Cancel Button
@@ -502,7 +474,7 @@ public class frmNewEditService extends JFrame {
 				Close();
 			}
 		});
-		btnCancel.setBounds(394, 340, 80, 29);
+		btnCancel.setBounds(394, 310, 80, 29);
 		contentPane.add(btnCancel);
 		
 		// Populate fields

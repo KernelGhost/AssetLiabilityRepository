@@ -115,6 +115,11 @@ public class frmNewEditTxn extends JFrame {
 			MessageBox.Warning("Please ensure the transaction description does not exceed " + Integer.toString(Main.VARCHAR_MAX_LENGTH) + " characters in length." , "Save Transaction");
 		}
 		
+		if (txtDescription.getText().trim().length() == 0) {
+			boolSave = false;
+			MessageBox.Warning("A transaction description is mandatory." , "Save Transaction");
+		}
+		
 		if (boolSave) {
 			Date TxnDate = java.sql.Date.valueOf(TxnDatePicker.getDate());
 			Transaction transaction = new Transaction(

@@ -84,7 +84,7 @@ public class frmAbout extends JFrame {
 		// AppIcon
 		JLabel lblIcon = new JLabel("");
 		try {
-			lblIcon.setBounds(10, 60, 236, 206);
+			lblIcon.setBounds(10, 86, 236, 154);
 			BufferedImage imgIcon;
 			imgIcon = ImageIO.read(getClass().getResource("/resources/graphics/Icon.png"));
 			Image imgIconScaled = imgIcon.getScaledInstance(lblIcon.getWidth(), lblIcon.getHeight(), Image.SCALE_SMOOTH);

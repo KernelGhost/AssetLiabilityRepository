@@ -100,8 +100,8 @@ public class frmInst extends JFrame {
 				
 				if (Response == 0) {
 					try {
-						// Check if entities or services exist under the selected institution
-						if((!Main.database_handler.DoesEntityUnderInstitutionExist(strInstID)) & (!Main.database_handler.DoesServiceUnderInstitutionExist(strInstID))) {
+						// Check if entities exist under the selected institution
+						if(!Main.database_handler.DoesEntityUnderInstitutionExist(strInstID)) {
 							Main.database_handler.DeleteInstitution(strInstID);
 							tblInst.getSelectionModel().clearSelection();
 							RefreshTable();

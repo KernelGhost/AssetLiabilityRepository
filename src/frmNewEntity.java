@@ -297,20 +297,7 @@ public class frmNewEntity extends JFrame {
 			
 			// If saving the main entity was successful, save the 'entity specific' data
 			if (NewEntityID != null) {
-				if (strType.equals(Main.ENTITY_TYPES[0])) {
-					// Savings Account
-					try {
-						Main.database_handler.NewSavingsAccount(NewEntityID);
-					} catch (SQLException e) {
-						MessageBox.Error("There was a database related error saving the new savings account." + System.lineSeparator() + "ALR will attempt to clean up any damage to the database.", "New Entity");
-						try {
-							Main.database_handler.DeleteEntity(NewEntityID);
-							MessageBox.Information("All damage to the database was corrected.", "New Entity");
-						} catch (SQLException e1) {
-							MessageBox.Error("Damage to the database could not be corrected automatically." + System.lineSeparator() + "Please manually remove orphaned entity with ID " + NewEntityID + " from the database.", "New Entity");
-						}
-					}
-				} else if (strType.equals(Main.ENTITY_TYPES[1])) {
+				if (strType.equals(Main.ENTITY_TYPES[1])) {
 					// Credit Card
 					BigDecimal CardLimit = new BigDecimal(spinLimit.getValue().toString()).setScale(2, RoundingMode.HALF_EVEN);
 					CreditCard new_card = new CreditCard(NewEntityID, CardLimit);
@@ -362,19 +349,6 @@ public class frmNewEntity extends JFrame {
 						Main.database_handler.NewTermDeposit(new_termdeposit);
 					} catch (SQLException e) {
 						MessageBox.Error("There was a database related error saving the new term deposit." + System.lineSeparator() + "ALR will attempt to clean up any damage to the database.", "New Entity");
-						try {
-							Main.database_handler.DeleteEntity(NewEntityID);
-							MessageBox.Information("All damage to the database was corrected.", "New Entity");
-						} catch (SQLException e1) {
-							MessageBox.Error("Damage to the database could not be corrected automatically." + System.lineSeparator() + "Please manually remove orphaned entity with ID " + NewEntityID + " from the database.", "New Entity");
-						}
-					}
-				} else if (strType.equals(Main.ENTITY_TYPES[4])) {
-					// Superannuation
-					try {
-						Main.database_handler.NewSuperannuation(NewEntityID);
-					} catch (SQLException e) {
-						MessageBox.Error("There was a database related error saving the new superannuation account." + System.lineSeparator() + "ALR will attempt to clean up any damage to the database.", "New Entity");
 						try {
 							Main.database_handler.DeleteEntity(NewEntityID);
 							MessageBox.Information("All damage to the database was corrected.", "New Entity");

@@ -1434,6 +1434,7 @@ public class frmEntity extends JFrame {
 				
 				// Populate the table
 				for (int intCtr = 0; intCtr < Services.length; intCtr++) {
+					String InstName = Main.database_handler.GetEntityFromID(Services[intCtr].GetEntityID()).GetInstitutionName();
 					String strDate;
 					if (Services[intCtr].GetExpiry() == null) {
 						strDate = "N/A";
@@ -1444,7 +1445,7 @@ public class frmEntity extends JFrame {
 					tblRelServModel.addRow(new Object[]{
 							Services[intCtr].GetServiceType(),
 							Services[intCtr].GetDescription(),
-							Services[intCtr].GetInstitutionName(),
+							InstName,
 							Services[intCtr].GetFrequency(),
 							Services[intCtr].GetUserID(),
 							Services[intCtr].GetPassword(),

@@ -538,13 +538,12 @@ public class DatabaseHandler{
 		if (result_set.next()) {
 			// Since there should only be one matching row, we don't bother looping through the results
 			String strServiceTypeName = GetServiceTypeNameFromServiceTypeID(result_set.getString("Service_Type"));
-			String strInstitutionName = GetInstitutionFromInstitutionID(result_set.getString("Institution_ID")).GetName();
 			
 			Date date = ParseDate(result_set.getString("Expiry_Date"));
 			service = new Service(
 					strServiceTypeName,
 					result_set.getString("Description"),
-					strInstitutionName,
+					result_set.getString("Entity_ID"),
 					result_set.getString("Frequency"),
 					result_set.getString("User_ID"),
 					result_set.getString("Pwd_PIN"),
@@ -560,7 +559,7 @@ public class DatabaseHandler{
 	}
 	
 	public Service[] GetServicesFromEntityID(String EntityID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM EntityReltdService WHERE Entity_ID = ?;");
+		PreparedStatement statement = connection.prepareStatement("SELECT * FROM Service WHERE Entity_ID = ?;");
 		statement.setString(1, EntityID);
 		ResultSet result_set = statement.executeQuery();
 		
@@ -824,22 +823,6 @@ public class DatabaseHandler{
 		return boolExists;
 	}
 	
-	public boolean DoesServiceUnderInstitutionExist (String InstitutionID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM Service WHERE Institution_ID = ?;");
-		statement.setString(1, InstitutionID);
-		ResultSet result_set = statement.executeQuery();
-		
-		boolean boolExists = false;
-		
-		if (result_set.next()) {
-			boolExists = true;
-		}
-		
-		ClosePreparedStatement(statement);
-		
-		return boolExists;
-	}
-	
 	public boolean DoesEntityUnderInstitutionExist (String InstitutionID) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("SELECT * FROM Entity WHERE Institution_ID = ?;");
 		statement.setString(1, InstitutionID);
@@ -987,13 +970,6 @@ public class DatabaseHandler{
 		return NewEntityID;
 	}
 	
-	public void NewSavingsAccount (String EntityID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO Savings (Entity_ID) VALUES (?);");
-		statement.setString(1, EntityID);
-		statement.executeUpdate();
-		ClosePreparedStatement(statement);
-	}
-	
 	public void NewCreditCard (CreditCard new_card) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO CreditCard (Entity_ID, Card_Limit) VALUES (?, ?);");
 		statement.setString(1, new_card.GetEntityID());
@@ -1020,13 +996,6 @@ public class DatabaseHandler{
 		statement.setString(5, new_termdeposit.GetBankFees().toString());
 		statement.setString(6, new_termdeposit.GetInterestRate().toString());
 		statement.executeUpdate();
-		ClosePreparedStatement(statement);
-	}
-	
-	public void NewSuperannuation (String EntityID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO Superannuation (Entity_ID) VALUES (?);");
-		statement.setString(1, EntityID);
-		statement.executeUpdate();	
 		ClosePreparedStatement(statement);
 	}
 	
@@ -1174,14 +1143,14 @@ public class DatabaseHandler{
 		ClosePreparedStatement(statement);
 	}
 	
-	public void NewService (Service new_service, String EntityID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO Service (Description, Institution_ID, User_ID, Pwd_PIN, Contact, Expiry_Date, Service_Type, Frequency) VALUES (?, ?, ?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?);");
+	public void NewService (Service new_service) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO Service (Description, Entity_ID, User_ID, Pwd_PIN, Contact, Expiry_Date, Service_Type, Frequency) VALUES (?, ?, ?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?);");
 		
 		DateFormat dateFormat = new SimpleDateFormat(Main.CE_DATE_FORMAT);
 		
 		statement.setString(1, new_service.GetDescription());
 		
-		statement.setString(2, GetInstitutionFromName(new_service.GetInstitutionName()).GetID());
+		statement.setString(2, new_service.GetEntityID());
 		
 		if (new_service.GetUserID() == null) {
 			statement.setNull(3, java.sql.Types.VARCHAR);
@@ -1219,24 +1188,17 @@ public class DatabaseHandler{
 		
 		ClosePreparedStatement(statement);
 		
-		statement = connection.prepareStatement("SELECT LAST_INSERT_ID();");
-		ResultSet result_set = statement.executeQuery();
+		//statement = connection.prepareStatement("SELECT LAST_INSERT_ID();");
+		//ResultSet result_set = statement.executeQuery();
 		
-		String NewServiceID = null;
+		//String NewServiceID = null;
 		
-		if (result_set.next()) {
-			// Since there should only be one matching row, we don't bother looping through the results
-			NewServiceID = result_set.getString("LAST_INSERT_ID()");
-		}
+		//if (result_set.next()) {
+		//	// Since there should only be one matching row, we don't bother looping through the results
+		//	NewServiceID = result_set.getString("LAST_INSERT_ID()");
+		//}
 		
-		ClosePreparedStatement(statement);
-		
-		statement = connection.prepareStatement("INSERT INTO EntityReltdService (Entity_ID, Service_ID) VALUES (?, ?);");;
-		statement.setString(1, EntityID);
-		statement.setString(2, NewServiceID);
-		statement.executeUpdate();
-		
-		ClosePreparedStatement(statement);
+		//ClosePreparedStatement(statement);
 	}
 	
 	public void NewLinkedEntity (String EntityID, String LinkedEntityID) throws SQLException {
@@ -1477,7 +1439,7 @@ public class DatabaseHandler{
 	}
 	
 	public void EditService(Service edited_service) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("UPDATE Service SET Service_ID = ?, Description = ?, Institution_ID = ?, User_ID = ?, Pwd_PIN = ?, Contact = ?, Expiry_Date = STR_TO_DATE(?, '%d/%m/%Y'), Service_Type = ?, Frequency = ? WHERE Service_ID = ?;");
+		PreparedStatement statement = connection.prepareStatement("UPDATE Service SET Service_ID = ?, Description = ?, Entity_ID = ?, User_ID = ?, Pwd_PIN = ?, Contact = ?, Expiry_Date = STR_TO_DATE(?, '%d/%m/%Y'), Service_Type = ?, Frequency = ? WHERE Service_ID = ?;");
 		
 		DateFormat dateFormat = new SimpleDateFormat(Main.CE_DATE_FORMAT);
 		
@@ -1485,7 +1447,7 @@ public class DatabaseHandler{
 		
 		statement.setString(2, edited_service.GetDescription());
 		
-		statement.setString(3, GetInstitutionFromName(edited_service.GetInstitutionName()).GetID());
+		statement.setString(3, edited_service.GetEntityID());
 		
 		if (edited_service.GetUserID() == null) {
 			statement.setNull(4, java.sql.Types.VARCHAR);
@@ -1659,20 +1621,8 @@ public class DatabaseHandler{
 		statement.executeUpdate();
 		ClosePreparedStatement(statement);
 		
-		// Savings
-		statement = connection.prepareStatement("DELETE FROM Savings WHERE Entity_ID = ?;");
-		statement.setString(1, EntityID);
-		statement.executeUpdate();
-		ClosePreparedStatement(statement);
-		
 		// Shares
 		statement = connection.prepareStatement("DELETE FROM Shares WHERE Entity_ID = ?;");
-		statement.setString(1, EntityID);
-		statement.executeUpdate();
-		ClosePreparedStatement(statement);
-		
-		// Superannuation
-		statement = connection.prepareStatement("DELETE FROM Superannuation WHERE Entity_ID = ?;");
 		statement.setString(1, EntityID);
 		statement.executeUpdate();
 		ClosePreparedStatement(statement);
@@ -1714,12 +1664,7 @@ public class DatabaseHandler{
 	}
 	
 	public void DeleteService (String ServiceID) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("DELETE FROM EntityReltdService WHERE Service_ID = ?;");
-		statement.setString(1, ServiceID);
-		statement.executeUpdate();
-		ClosePreparedStatement(statement);
-		
-		statement = connection.prepareStatement("DELETE FROM Service WHERE Service_ID = ?;");
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM Service WHERE Service_ID = ?;");
 		statement.setString(1, ServiceID);
 		statement.executeUpdate();
 		ClosePreparedStatement(statement);
