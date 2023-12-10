@@ -1740,6 +1740,10 @@ MariaDB provides the backend database functionality for ALRv2. MariaDB installat
   		<td bgcolor="#641E16"><code>CREATE USER 'NAME_OF_USER'@'localhost' IDENTIFIED BY 'ADD_A_PASSWORD';</code></td>
    		<td bgcolor="#641E16"><font color="#ffffff">Creates a user and sets a password for them.</font></td>
  	</tr>
+	<tr>
+  		<td bgcolor="#641E16"><code>ALTER USER 'NAME_OF_USER'@'localhost' IDENTIFIED BY 'NEW_PASSWORD';</code></td>
+   		<td bgcolor="#641E16"><font color="#ffffff">Changes the password for a user.</font></td>
+ 	</tr>
     <tr>
   		<td bgcolor="#641E16"><code>SELECT host, user, password FROM mysql.user;</code></td>
    		<td bgcolor="#641E16"><font color="#ffffff">Lists all users.</font></td>
