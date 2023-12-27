@@ -173,7 +173,7 @@ public class frmEntity extends JFrame {
 		
 		// Prepare graph
 		graph = new SingleGraph("Relationship Tree");
-		graph.addAttribute("ui.stylesheet", " graph { padding: 50px; fill-mode: none; } node { size: 20px; text-size: 20px; text-alignment: under; }");
+		graph.addAttribute("ui.stylesheet", "graph { padding: 50px; fill-mode: none; } node { fill-color: rgb(127, 127, 127); size: 20px; text-color: white; text-size: 20px; text-alignment: under; } edge { fill-color: white; }");
 		
 		try {
 			// Add nodes using linked entity results
@@ -192,14 +192,14 @@ public class frmEntity extends JFrame {
 			if (Main.database_handler.GetEntityFromID(strEntity).GetEntityStatusName().equalsIgnoreCase(Main.strClosed)) {
 				strColor = "rgb(" + Integer.toString(Main.colDarkRed.getRed()) + ", " + Integer.toString(Main.colDarkRed.getGreen())+ ", " + Integer.toString(Main.colDarkRed.getBlue()) + ")";
 			} else {
-				strColor = "rgb(0, 0, 0)";
+				strColor = "rgb(127, 127, 127)";
 			}
 			
-			// Indicate the currently selected entity via a blue outline
+			// Indicate the currently selected entity via a white outline
 			graph.getNode(strEntity).setAttribute("ui.style",
 					"stroke-mode: plain;"
 					+ "stroke-width: 4px;"
-					+ "stroke-color: rgb(" + Integer.toString(Main.colDarkBlue.getRed()) + ", " + Integer.toString(Main.colDarkBlue.getGreen()) + ", " + Integer.toString(Main.colDarkBlue.getBlue()) + ");"
+					+ "stroke-color: rgb(255, 255, 255);"
 					+ "fill-color: " + strColor + ";");
 			
 			try {
@@ -1910,7 +1910,7 @@ public class frmEntity extends JFrame {
 			setTitle(strEntity + " - " + entity.GetEntityTypeName() + " [" + entity.GetEntityNumber() + "]");
 			
 			// Set the icon
-			setIconImage(Toolkit.getDefaultToolkit().getImage(frmEntity.class.getResource("/resources/graphics/Icon.png")));
+			setIconImage(Toolkit.getDefaultToolkit().getImage(frmEntity.class.getResource("/resources/graphics/appicon.png")));
 			
 			// Restrict resizing
 			setResizable(false);
@@ -1958,6 +1958,7 @@ public class frmEntity extends JFrame {
 			// Entity Holders
 			HolderList = new JList<String>(HolderListModel);
 			HolderList.setBackground(new Color(230, 255, 236));
+			HolderList.setForeground(Color.BLACK);
 			HolderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			JScrollPane HolderListPanel = new JScrollPane(HolderList);
 			HolderListPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1968,6 +1969,7 @@ public class frmEntity extends JFrame {
 			// Remaining/Other Holders
 			OtherHolderList = new JList<String>(OtherHolderListModel);
 			OtherHolderList.setBackground(new Color(255, 230, 231));
+			OtherHolderList.setForeground(Color.BLACK);
 			OtherHolderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			JScrollPane OtherHolderListPanel = new JScrollPane(OtherHolderList);
 			OtherHolderListPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

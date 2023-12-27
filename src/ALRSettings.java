@@ -52,7 +52,7 @@ public class ALRSettings extends JDialog {
 		setTitle("ALR Settings");
 		
 		// Set Window Icon
-		setIconImage(Toolkit.getDefaultToolkit().getImage(frmNewEditHolder.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frmNewEditHolder.class.getResource("/resources/graphics/appicon.png")));
 		
 		// Make Non-resizable
 		setResizable(false);

@@ -238,7 +238,7 @@ public class frmHolder extends JFrame {
 	
 	public frmHolder() {
 		setTitle("ALR - Holders");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(frmHolder.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frmHolder.class.getResource("/resources/graphics/appicon.png")));
 		setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
@@ -299,18 +299,8 @@ public class frmHolder extends JFrame {
 				OpenNewHolder();
 			}
 		});
-		btnCreate.setBounds(439, 279, 70, 29);
+		btnCreate.setBounds(421, 279, 76, 29);
 		contentPane.add(btnCreate);
-		
-		// Delete
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DeleteHolder();
-			}
-		});
-		btnDelete.setBounds(573, 279, 70, 29);
-		contentPane.add(btnDelete);
 		
 		// Edit
 		JButton btnEdit = new JButton("Edit");
@@ -319,8 +309,18 @@ public class frmHolder extends JFrame {
 				EditHolder();
 			}
 		});
-		btnEdit.setBounds(506, 279, 70, 29);
+		btnEdit.setBounds(494, 279, 76, 29);
 		contentPane.add(btnEdit);
+		
+		// Delete
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeleteHolder();
+			}
+		});
+		btnDelete.setBounds(567, 279, 76, 29);
+		contentPane.add(btnDelete);
 		
 		Initialise();
 	}

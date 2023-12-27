@@ -1,4 +1,122 @@
-# ALR4J Documentation
+# Asset Liability Repository Documentation
+## Build Instructions
+### macOS
+1. Clone the repository.
+	```bash
+	git clone https://github.com/KernelGhost/AssetLiabilityRepository.git
+	```
+
+2. Create `./bin` and `./build` directories.
+	```bash
+	cd AssetLiabilityRepository
+	mkdir bin
+	mkdir build
+	```
+
+3. Compile the program into bytecode. The resulting `.class` files will be placed within the `./bin` directory.
+    ```bash
+    javac -d ./bin -cp "./lib/*" -deprecation ./src/*.java ./src/CustomTypes/*.java
+    ```
+
+4. Place a copy of the graphics resources within the `./bin` directory.
+    ```bash
+    mkdir -p ./bin/resources/graphics && cp -r ./src/resources/graphics ./bin/resources
+    ```
+
+5. Create a `manifest.txt`. <p style="color:red;">Note that text file must end with a new line or carriage return, otherwise the last line will not be parsed properly!</p>
+	```
+	Manifest-Version: 1.0
+	Main-Class: Main
+	Class-Path: /lib/gs-algo-1.3.jar /lib/gs-core-1.3.jar lib/gs-ui-1.3.jar lib/LGoodDatePicker-11.1.0.jar lib/mariadb-java-client-2.7.1.jar lib/xchart-3.6.3.jar lib/flatlaf-3.2.5.jar lib/flatlaf-intellij-themes-3.2.5.jar
+
+	```
+
+6. Create an executable `.jar` file and move it into the `./build` directory. <p style="color:red;">Note that the libraries mentioned in the manifest classpath must be located within a directory located at <code>./lib</code> relative to the created <code>.jar</code> file for the application to launch correctly.</p>
+	```bash
+	jar --create --file=ALR.jar --manifest=manifest.txt -C ./bin . && mv ALR.jar ./build/ALR.jar
+	```
+
+7. Place a copy of the libraries within the `./build` directory.
+    ```bash
+	mkdir -p ./build/lib && cp lib/* ./build/lib
+    ```
+
+8. Use `jpackage` to create a native installer. A macOS disk image named `Asset Liability Repository-2.0.dmg` should be produced within the root directory of the repository.
+	```bash
+	jpackage \
+		--name Asset\ Liability\ Repository \
+		--icon icon/appicon.icns \
+		--app-version 2.0 \
+		--input build \
+		--main-jar ALR.jar \
+		--main-class Main \
+		--type dmg
+	```
+
+9. Clean up.
+	```bash
+	rm -r ./bin
+	rm -r ./build
+	```
+
+### Windows
+1. Clone the repository.
+	```powershell
+	git clone https://github.com/KernelGhost/AssetLiabilityRepository.git
+	```
+
+2. Create `.\bin` and `.\build` directories.
+	```powershell
+	cd .\AssetLiabilityRepository\
+	mkdir bin
+	mkdir build
+	```
+
+3. Compile the program into bytecode. The resulting `.class` files will be placed within the `.\bin` directory.
+    ```powershell
+    javac -d .\bin -cp ".\lib\*" -deprecation .\src\*.java .\src\CustomTypes\*.java
+    ```
+
+4. Place a copy of the graphics resources within the `.\bin` directory.
+    ```powershell
+    Copy-Item -Path .\src\resources\graphics -Destination .\bin\resources\graphics -Recurse -Force
+    ```
+
+5. Create a `manifest.txt`. <p style="color:red;">Note that text file must end with a new line or carriage return, otherwise the last line will not be parsed properly!</p>
+	```
+	Manifest-Version: 1.0
+	Main-Class: Main
+	Class-Path: /lib/gs-algo-1.3.jar /lib/gs-core-1.3.jar lib/gs-ui-1.3.jar lib/LGoodDatePicker-11.1.0.jar lib/mariadb-java-client-2.7.1.jar lib/xchart-3.6.3.jar lib/flatlaf-3.2.5.jar lib/flatlaf-intellij-themes-3.2.5.jar
+
+	```
+
+6. Create an executable `.jar` file and move it into the `.\build` directory. <p style="color:red;">Note that the libraries mentioned in the manifest classpath must be located within a directory located at <code>./lib</code> relative to the created <code>.jar</code> file for the application to launch correctly.</p>
+	```powershell
+	jar --create --file=ALR.jar --manifest=manifest.txt -C .\bin .; Move-Item -Path ALR.jar -Destination .\build\ALR.jar
+	```
+
+7. Place a copy of the libraries within the `.\build` directory.
+    ```powershell
+	mkdir .\build\lib; Copy-Item -Path ".\lib\*.jar" -Destination .\build\lib
+    ```
+
+8. Use `jpackage` to create a native application. A folder named `Asset Liability Repository` should be produced within the root directory of the repository.
+	```powershell
+	jpackage --name "Asset Liability Repository" --icon icon/appicon.ico --app-version 2.0 --input build --main-jar ALR.jar --main-class Main --type app-image
+	```
+
+9. Place everything within a `.zip` archive.
+	```powershell
+	Compress-Archive -Path ".\Asset Liability Repository\*" -DestinationPath "Asset Liability Repository.zip"
+	```
+
+10. Clean up.
+	```powershell
+	Remove-Item -LiteralPath .\bin -Force -Recurse
+	Remove-Item -LiteralPath .\build -Force -Recurse
+	Remove-Item -LiteralPath ".\Asset Liability Repository" -Force -Recurse
+	```
+
 ## Database Structure
 ### <p style="background-color:#C0392B; color:white;">Domn</p>
 - Contains definitions for various integer IDs used within other tables (e.g. entity types, institution types, entity status types, service types, transaction types, etc.).

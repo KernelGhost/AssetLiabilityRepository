@@ -33,7 +33,7 @@ public class EntityTableCellRenderer extends DefaultTableCellRenderer  {
 	    else {
 	    	// If the row represents a current entity, colour it using the default alternating white/grey scheme
 	        this.setBackground(table.getBackground());
-	        this.setForeground(Color.BLACK);
+	        this.setForeground(Color.WHITE);
 	    }
 	    
 	    // If a given row is selected by the user, colour it a dark blue colour

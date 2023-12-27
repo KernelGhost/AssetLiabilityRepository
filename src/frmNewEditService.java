@@ -294,7 +294,7 @@ public class frmNewEditService extends JFrame {
 		}
 		
 		// Set Window Icon
-		setIconImage(Toolkit.getDefaultToolkit().getImage(frmNewEditService.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frmNewEditService.class.getResource("/resources/graphics/appicon.png")));
 		
 		// Make Non-resizable
 		setResizable(false);

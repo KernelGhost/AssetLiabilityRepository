@@ -1,13 +1,12 @@
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.SQLInvalidAuthorizationSpecException;
-
 import javax.swing.JOptionPane;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager;
+import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 
 public class Main {
 	// Database Details
@@ -33,38 +32,20 @@ public class Main {
 	// GUI Constants
 	public static String strClosed = "Closed";							// The string used to indicate a closed entity (required by EntityTableCellRenderer for main entity search result table)
 	public static final Color colDarkRed = new Color(204, 0, 0);		// Custom dark red colour to be used in the entity search table and in the entity relationship tree
-	public static final Color colDarkBlue = new Color(57, 105, 138);	// Custom dark blue colour to be used in the entity search table and in the entity relationship tree
+	public static final Color colDarkBlue = new Color(8, 84, 99);	// Custom dark blue colour to be used in the entity search table and in the entity relationship tree
 	
 	// Global Static Classes
 	public static login_dialog dialog;					// Allows for users to login into the database
 	public static frmMain frmMain;						// The main window of the application
 	public static DatabaseHandler database_handler;		// The class that deals with the database
 	
-	public static void main(String[] args) {
-		// Set Nimbus Look and Feel (The UI of the application was designed around this specific LaF)
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				boolean boolNimbus = false;
-				for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-					if ("Nimbus".equals(info.getName())) {
-						try {
-							
-							javax.swing.UIManager.setLookAndFeel(info.getClassName());
-						} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-								| UnsupportedLookAndFeelException e) {
-							JOptionPane.showMessageDialog(null, "Could not start the application with the preferred look and feel.\nUsing system defaults.", "ALR", JOptionPane.ERROR_MESSAGE, null);
-						}
-						
-						boolNimbus = true;
-				        break;
-					}
-			    }
-				
-				if (!boolNimbus) {
-					JOptionPane.showMessageDialog(null, "Could not start the application with the preferred look and feel.\nUsing system defaults.", "ALR", JOptionPane.ERROR_MESSAGE, null);
-				}
-			}
-		});
+	public static void main(String[] args) {		
+		// Set 'FlatLaf' look and feel.
+		try {
+		    UIManager.setLookAndFeel(new FlatCarbonIJTheme());
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Could not start the application with the preferred look and feel.\nUsing system defaults.", "ALR", JOptionPane.ERROR_MESSAGE, null);
+		}
 		
 		// Set Renderer for GraphStream (required for more advanced features such as node stroke)
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");

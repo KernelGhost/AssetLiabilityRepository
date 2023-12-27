@@ -225,7 +225,7 @@ public class frmInst extends JFrame {
 	
 	public frmInst() {
 		setTitle("ALR - Institutions");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(frmInst.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frmInst.class.getResource("/resources/graphics/appicon.png")));
 		setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
@@ -296,18 +296,8 @@ public class frmInst extends JFrame {
 				OpenNewInst();
 			}
 		});
-		btnCreate.setBounds(439, 279, 70, 29);
+		btnCreate.setBounds(421, 279, 76, 29);
 		contentPane.add(btnCreate);
-		
-		// Delete
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DeleteInst();
-			}
-		});
-		btnDelete.setBounds(573, 279, 70, 29);
-		contentPane.add(btnDelete);
 		
 		// Edit
 		JButton btnEdit = new JButton("Edit");
@@ -316,8 +306,18 @@ public class frmInst extends JFrame {
 				EditInst();
 			}
 		});
-		btnEdit.setBounds(506, 279, 70, 29);
+		btnEdit.setBounds(494, 279, 76, 29);
 		contentPane.add(btnEdit);
+		
+		// Delete
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeleteInst();
+			}
+		});
+		btnDelete.setBounds(567, 279, 76, 29);
+		contentPane.add(btnDelete);
 		
 		Initialise();
 	}

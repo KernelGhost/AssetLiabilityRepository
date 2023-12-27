@@ -41,7 +41,7 @@ public class login_dialog extends JDialog {
 		setTitle("ALR Login");
 		
 		// Set Window Icon
-		setIconImage(Toolkit.getDefaultToolkit().getImage(login_dialog.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(login_dialog.class.getResource("/resources/graphics/appicon.png")));
 		
 		// Make Non-resizable
 		setResizable(false);

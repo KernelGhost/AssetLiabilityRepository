@@ -705,7 +705,7 @@ public class frmMain extends JFrame {
 	public frmMain() {	
 		// Prepare the JFrame
 		setTitle("Asset Liability Repository");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(frmMain.class.getResource("/resources/graphics/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frmMain.class.getResource("/resources/graphics/appicon.png")));
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
