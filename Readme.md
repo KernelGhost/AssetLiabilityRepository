@@ -59,6 +59,56 @@
 	rm -r ./build
 	```
 
+### Linux
+1. Follow steps 1 through 7 (inclusive) from the macOS build instructions section.
+2. Move and rename the build folder.
+    ```bash
+    mv ./build /opt/ALR
+	```
+3. Create an application launcher for your Desktop Environment (DE). For example, on the Cinnamon DE:
+    1. Create `Asset Liability Repository.desktop` within `~/Desktop` containing the following:
+	    ```
+        [Desktop Entry]
+		Name[en_AU]=Asset Liability Repository
+		GenericName[en_AU.UTF-8]=Asset Liability Repository
+		Comment=Asset Liability Repository
+		Icon=moneydance
+		Exec=java -Dsun.java2d.uiScale=2 -jar '/opt/ALR/ALR.jar'
+		Type=Application
+		Categories=Utility;
+		Terminal=false
+		```
+	2. Mark the application launcher as executable.
+	    ```bash
+        chmod +x Asset\ Liability\ Repository.desktop
+		```
+4. Clean up.
+	```bash
+	rm -r ./bin
+	```
+
+_Note: It is recommended to install and use an LTS version of OpenJDK to run Asset Liability Repository._
+1. Install `OpenJDK 17`.
+    ```bash
+	sudo dnf install java-17-openjdk
+    sudo dnf install java-17-openjdk-devel
+	```
+2. Set `OpenJDK 17` as the default `java` version.
+    ```bash
+	sudo alternatives --config java
+	```
+3. Confirm `OpenJDK 17` is the default `java` version.
+    ```bash
+	java --version
+	```
+
+	Expected output:
+	```
+    openjdk 17.0.11 2024-04-16
+	OpenJDK Runtime Environment (Red_Hat-17.0.11.0.9-1) (build 17.0.11+9)
+	OpenJDK 64-Bit Server VM (Red_Hat-17.0.11.0.9-1) (build 17.0.11+9, mixed mode, sharing)
+	```
+
 ### Windows
 1. Clone the repository.
 	```powershell
@@ -115,6 +165,83 @@
 	Remove-Item -LiteralPath .\bin -Force -Recurse
 	Remove-Item -LiteralPath .\build -Force -Recurse
 	Remove-Item -LiteralPath ".\Asset Liability Repository" -Force -Recurse
+	```
+
+## Database Backend
+[`MariaDB`](https://mariadb.org/) is the recommended database backend for this project.
+
+### macOS
+```bash
+brew install mariadb
+```
+
+### Linux (RHEL/CentOS/Fedora)
+```bash
+sudo dnf install mariadb
+sudo dnf install mariadb-server
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo mysql_secure_installation
+```
+
+### Windows
+```PowerShell
+choco install mariadb
+```
+
+_Note: To enable interoperability with macOS and Linux systems, a system variable needs to be modified to store case-preserving database, table and alias names. This is optional, but can help avoid errors when moving databases between macOS, Windows and Linux-based systems._
+1. Open `C:\Program Files\MariaDB 10.6\data\my.ini` in a text editor.
+2. Add `lower_case_table_names=2` under the `[mysqld]` section. The `lower_case_table_names` system variable overrides operating system-level settings to control case sensitivity for database, table, and alias names:
+	- `0`:
+		- Default on Unix-based systems.
+		- Case-preserving storage.
+		- Case-sensitive comparisons.
+	- `1`:
+		- Default on Windows systems.
+		- Lowercase storage.
+		- Case-insensitive comparisons.
+	- `2`:
+		- Default on macOS.
+		- Case-preserving storage.
+		- Case-insensitive comparisons.
+3. Restart MariaDB.
+    ```PowerShell
+    net stop mysql
+    net start mysql
+	```
+
+### Initial Setup
+1. Create a user.
+    ```SQL
+    CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+	```
+2. Create 'ALR_DB' database.
+    ```SQL
+    CREATE DATABASE ALR_DB;
+	```
+3. Grant the user privileges for the database.
+    ```SQL
+    GRANT ALL PRIVILEGES ON ALR_DB.* TO 'username'@'localhost';
+	```
+4. Use a SQL file to populate the database.
+    - macOS and Linux (Bash)
+		```bash
+		mysql -u username -p ALR_DB < /path/to/ALR_Database_Backup.sql
+		```
+	- Windows (Command Prompt)
+		```cmd
+		"C:\Program Files\MariaDB 10.6\bin\mysql.exe" -u username -p ALR_DB < C:\path\to\ALR_Database.sql
+		```
+
+### Database Backups
+To create an ALR database backup in the form of a `.SQL` file, run the below commands.
+- macOS and Linux (Bash)
+    ```bash
+	mariadb-dump --user=username --password --lock-tables --databases ALR_DB > /path/to/ALR_Database_Backup.sql
+	```
+- Windows (PowerShell)
+	```PowerShell
+	& "C:\Program Files\MariaDB 10.6\bin\mariadb-dump.exe" --user=username --password --lock-tables --databases ALR_DB > C:\path\to\ALR_Database_Backup.sql
 	```
 
 ## Database Structure
